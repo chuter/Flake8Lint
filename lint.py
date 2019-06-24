@@ -344,13 +344,14 @@ def lint_external(lines, settings, interpreter, linter):
         stdout=subprocess.PIPE,
         stdin=subprocess.PIPE,
         stderr=subprocess.STDOUT,
-        startupinfo=startupinfo
+        startupinfo=startupinfo,
+        universal_newlines=True
     )
-    result = proc.communicate(input=lines.encode('utf-8'))[0]
+    result = proc.communicate(input=lines)[0]
 
     # parse STDOUT for warnings and errors
     for line in result.splitlines():
-        line = line.decode('utf-8').strip()
+        line = line.strip()
         warning = line.split(':', 2)
         if len(warning) == 3:
             try:
